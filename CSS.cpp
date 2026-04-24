@@ -1,9 +1,9 @@
 #include <armadillo>
 using namespace std;
 
-#include "QGDecoder/Auxillaries.h"
-#include "QGDecoder/Standard_codes.h"
-#include "QGDecoder/Additive.h"
+#include "Auxillaries.h"
+#include "Standard_codes.h"
+#include "Additive.h"
 			
 int main()
 {

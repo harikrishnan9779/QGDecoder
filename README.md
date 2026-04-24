@@ -1,11 +1,11 @@
 # QGDecoder
 
-**QGDecoder** is a graph-based quantum error correction decoder supporting:
+**QGDecoder** is a graph-based bounded-distance quantum decoder supporting arbitrary stabilizer codes
 
-- CSS stabilizer codes
-- Non-CSS stabilizer codes
-- Graph-state based decoding
-- Bounded distance decoding
+- CSS and non-CSS stabilizer codes.
+- Graph state based decoding.
+- Bounded distance decoder.
+- Set a target weight, all errors with weight up to that will be corrected with certainity. 
 
 ## Features
 - Written in C++ with Armadillo
@@ -14,5 +14,5 @@
 
 ## Requirements
 - C++17
-- Armadillo
+- [Armadillo Library](http://arma.sourceforge.net/)
 
