@@ -1,6 +1,6 @@
 # QGDecoder
 
-**QGDecoder** is a graph-based bounded-distance quantum decoder supporting arbitrary stabilizer codes
+**QGDecoder** is a graph-aware bounded-distance quantum decoder supporting arbitrary stabilizer codes
 - An $[[N,k,d]]$ quantum code corrects upto weight $t=(d-1)/2$ errors with certainty.   
 - QGDecoder takes in a tunable target weight $T$. If $T\leq t$ it ensures all errors with weight $w\leq T$ is corrected.
 - Graph state based bounded distance decoding.
