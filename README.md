@@ -1,6 +1,7 @@
 # QGDecoder
 
 **QGDecoder** is a graph-based bounded-distance quantum decoder supporting arbitrary stabilizer codes
+- An $[[N,k,d]]$ quantum code corrects upto weight $t=(d-1)/2$ errors with certainty.   
 
 - CSS and non-CSS stabilizer codes.
 - Graph state based decoding.
