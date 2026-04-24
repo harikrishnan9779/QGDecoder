@@ -1,0 +1,17 @@
+# Build folders
+build/
+cmake-build-debug/
+cmake-build-release/
+
+# Compiled binaries
+*.o
+*.out
+*.exe
+a.out
+
+# IDE files
+.vscode/
+.idea/
+
+# OS junk
+.DS_Store
