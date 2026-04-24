@@ -9,8 +9,8 @@
 
 ## Package features and requirements
 - Header only package. Make sure the parent folder QGDecoder is accessible. Enjoy decoding!
-- Written in C++ (use C++17 to avoid any warnings)
-- Linear algebra powered by [Armadillo](http://arma.sourceforge.net/)
+- Written in C++ (use C++17 preferably).
+- Linear algebra powered by Armadillo. Install from [here](http://arma.sourceforge.net/) to use QGDecoder.
 
 ## Available quantum codes
 - non-CSS [optimal codes](https://www.codetables.de/) of distance $d=3,5,7,9,11$.
