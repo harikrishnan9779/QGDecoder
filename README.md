@@ -18,13 +18,13 @@
 - CSS triangular color code on triangular lattice of length $d$.
 - CSS rotated surface codes on $d\times d$ square lattice.  
 
-If you use the QGDecoder please citing the article as,
-@misc{QGDecoder,
-      title={A graph-aware bounded-distance decoder for all stabilizer codes}, 
-      author={Harikrishnan K J and Amit Kumar Pal},
-      year={2026},
-      eprint={},
-      archivePrefix={arXiv},
-      primaryClass={quant-ph},
-      url={https://arxiv.org/abs/}, 
+If you use the QGDecoder please citing the article as,\\
+@misc{QGDecoder,\\
+      title={A graph-aware bounded-distance decoder for all stabilizer codes},\\ 
+      author={Harikrishnan K J and Amit Kumar Pal},\\
+      year={2026},\\
+      eprint={},\\
+      archivePrefix={arXiv},\\
+      primaryClass={quant-ph},\\
+      url={https://arxiv.org/abs/},\\ 
 }
