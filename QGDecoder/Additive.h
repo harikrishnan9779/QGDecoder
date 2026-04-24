@@ -1,21 +1,22 @@
 struct stab_to_graph
 	{
 	std::vector<std::string> stabs,Lz,Lx;
-	unsigned int N,N_stab,N_log,Nx,N_left;
+	unsigned int N,t,N_stab,N_log,Nx,N_left;
 	arma::uvec stabs_order,qubits_rev_order;
 	arma::umat Xs,Zs,Adj,J;
 	arma::uvec H,P;
 	bool print_graph_status=false;
-	stab_to_graph(std::vector<std::string>,std::vector<std::string>,std::vector<std::string>,bool);
+	stab_to_graph(std::vector<std::string>,std::vector<std::string>,std::vector<std::string>,unsigned int,bool);
 	};
 		
-stab_to_graph::stab_to_graph(std::vector<std::string> stabilizer_gen,std::vector<std::string> logicalZ_op,std::vector<std::string> logicalX_op, bool use_Lz=true)
+stab_to_graph::stab_to_graph(std::vector<std::string> stabilizer_gen,std::vector<std::string> logicalZ_op,std::vector<std::string> logicalX_op,unsigned int d,bool use_Lz=true)
 	{
 	stabs = stabilizer_gen;
 	Lz = logicalZ_op;	
 	Lx = logicalX_op;	
 	N_stab=stabs.size(), N_log=Lz.size();
-	N=N_stab+N_log;
+	N = N_stab+N_log;
+	t = (d-1)/2;
 	arma::umat A_S(2*N,N,arma::fill::zeros);
 	for(unsigned int j=0;j<N_stab;j++) //stabilizers
 		{
@@ -276,7 +277,7 @@ void return_layers(arma::urowvec graph_syn,MatType &G,unsigned int t,std::vector
 	return;
 	}
 
-Pauli_error decode(unsigned int t,unsigned int max_wt,arma::urowvec &graph_syn,arma::umat &Adj)
+Pauli_error decode(unsigned int t,unsigned int T,arma::urowvec &graph_syn,arma::umat &Adj)
 	{
 	unsigned int N=graph_syn.n_cols; 
 	arma::urowvec mu_best(N,arma::fill::zeros); 
@@ -287,8 +288,8 @@ Pauli_error decode(unsigned int t,unsigned int max_wt,arma::urowvec &graph_syn,a
 
 	std::vector<arma::uvec> feed_forward;
 	unsigned int N_layers,N_q_layers,max_layers;
-	return_layers(graph_syn,Adj,max_wt,feed_forward,N_layers,N_q_layers);
-	max_layers=min(arma::uvec({N_layers,max_wt}));
+	return_layers(graph_syn,Adj,T,feed_forward,N_layers,N_q_layers);
+	max_layers=min(arma::uvec({N_layers,T}));
 	
 	//Weight reduction begins
 	for(int cur_l=0;cur_l<max_layers;cur_l++)
@@ -297,10 +298,10 @@ Pauli_error decode(unsigned int t,unsigned int max_wt,arma::urowvec &graph_syn,a
 		arma::uvec past_layer = {};
 		for(int q=0;q<cur_l;q++)
 			past_layer.insert_rows(past_layer.n_rows,feed_forward[q]);		
-		int past_k_max = min(arma::uvec({past_layer.n_elem,max_wt})); //past_layer.n_elem
+		int past_k_max = min(arma::uvec({past_layer.n_elem,T})); //past_layer.n_elem
 		for(int past_k=0;past_k<=past_k_max;past_k++) //Past layer all combination loop
 			{
-			int curr_k_max = min(arma::uvec({curr_layer.n_elem,max_wt-past_k})); //curr_layer.n_elem
+			int curr_k_max = min(arma::uvec({curr_layer.n_elem,T-past_k})); //curr_layer.n_elem
 			for(int curr_k=0;curr_k<=curr_k_max;curr_k++) //Current layer all combination loop
 				{
 				if((curr_k+past_k)==0){continue;}
@@ -329,14 +330,14 @@ Pauli_error decode(unsigned int t,unsigned int max_wt,arma::urowvec &graph_syn,a
 	return(C_best);
 	}
 
-std::string decode(arma::umat graph_syndromes,const unsigned int t,const unsigned int tmax,stab_to_graph &S)
+std::string decode(arma::umat graph_syndromes,const unsigned int T,stab_to_graph &S)
 	{
 	Pauli_error C_list[graph_syndromes.n_rows]; //Correction for every graph syndrome 
 	arma::uvec weights(graph_syndromes.n_rows);
 	for(int i=0;i<graph_syndromes.n_rows;i++) //Going through each graph syndrome
 		{
 		arma::urowvec graph_syn=graph_syndromes.row(i);
-		C_list[i]=decode(t,tmax,graph_syn,S.Adj);
+		C_list[i]=decode(S.t,T,graph_syn,S.Adj);
 		weights(i)=C_list[i].w;
 		}
 	std::string CG = C_list[weights.index_min()].E;

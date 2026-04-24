@@ -7,24 +7,41 @@ using namespace std;
 			
 int main()
 {
+unsigned int d=5; //code distance
 std::vector<std::string> stabs,Lz,Lx;
-stabs={"XZZXI","IXZZX","XIXZZ","ZXIXZ"};
-Lz={"ZZZZZ"}; Lx={"XXXXX"};
-unsigned int d=3;//[[5,1,3]]
+//optimal_codes(d,stabs,Lz,Lx); //optimal codes of d=3,5,7,9,11 are available
+XZZX_code(d,stabs,Lz,Lx); // XZZX code on d*d square lattice
 
-unsigned int t=(d-1)/2;
-unsigned int tmax=t;
-double p=0.09;
-stab_to_graph S(stabs,Lz,Lx);
+stab_to_graph S(stabs,Lz,Lx,d);
+unsigned int N=S.N; // No. of physical qubits
+unsigned int T=S.t; // BDD target weight S.t = (d-1)/2
+
+unsigned int w=N; // Maximum weight of Pauli error combination 
+double p=0.1; // single qubit channel probability p 
+
 for(int i=0;i<pow(10,3);i++)
 	{
-	std::string E=get_pauli_error_vector(S.N,S.N,p,'D');
+
+	// Generate N qubit, weight w Pauli error with single qubit channel probability p 
+	// flags 'D' - Depolarization, 'X', 'Y' or 'Z' - Bit flip, Bit-phase flip and phase flip channels 
+
+	std::string E=get_pauli_error_vector(N,w,p,'D');
+
+	// Obtaining stabilizer syndrome and graph syndromes
+
 	arma::urowvec stab_syn;
 	arma::umat graph_syn;
 	get_stabilizer_syndrome(E,S,stab_syn);
 	get_graph_syndrome(stab_syn,S,graph_syn);
-	std::string C = decode(graph_syn,t,tmax,S);	
+
+	// Bounded distance decoding
+
+	std::string C = decode(graph_syn,T,S);	
+
+	// Checking logical error		
+	
 	bool Log_err=logical_error(E,C,Lz,Lx);
+
 	std::cout<<"Error:"<<E<<" Correction:"<<C<<" Weight:"<<Pauli_error(E).w<<" Logical error:"<<Log_err<<std::endl;
 	}
 return(0);

@@ -1,2 +1,2 @@
-g++ non_CSS.cpp -o a -larmadillo -fopenmp
+g++ CSS.cpp -o a -larmadillo -fopenmp
 ./a

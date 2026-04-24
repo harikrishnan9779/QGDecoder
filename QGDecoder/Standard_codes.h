@@ -2,7 +2,7 @@ void triangular_color_code(unsigned int d,std::vector<std::string> &stabs,std::v
 	{
 	stabs={};Lz={};Lx={};
 	if(d%2==0)
-		{throw std::runtime_error("Only odd d values are allowed!");}	
+		{std::cout<<"d must be odd!!"<<std::endl; exit(0);}
 	unsigned int N = (3*d*d+1)/4;
 	std::vector<arma::uvec> R,G,B,Plaquettes;
 	arma::uvec qubits = arma::regspace<arma::uvec> (0,N-1),Lx_ind,Lz_ind;
@@ -133,7 +133,7 @@ void rotated_surface_code(unsigned int d,std::vector<std::string> &stabs,std::ve
 	{
 	stabs={};Lz={};Lx={};
 	if(d%2==0)
-		{throw std::runtime_error("Only odd d values are allowed!");}
+		{std::cout<<"d must be odd!!"<<std::endl; exit(0);}
 	unsigned int N = d*d;
 	std::vector<arma::uvec> Z_Plaquettes,X_Plaquettes;
 	arma::uvec Lx_ind,Lz_ind;
@@ -197,123 +197,42 @@ void XZZX_code(unsigned int d,std::vector<std::string> &stabs,std::vector<std::s
 						Lx[s][i*d+j]='Z';
 				}
 	}
-	
-void cluster_CWS(unsigned int d,unsigned int &N,std::vector<std::string> &stabs,std::vector<std::string> &Lz,std::vector<std::string> &Lx,int l=-1)
-	{
-	if(d%2==0)
-		{throw std::runtime_error("Only odd d values are allowed!");}
-	arma::umat Adj;
-	arma::uvec A,Ap;
-	if(d==3)
-		{
-		l = 7;
-		N = l; 
-		A = arma::regspace<arma::uvec> (0,6);
-		Adj=arma::umat(N,N,arma::fill::zeros);
-		for(int k=0;k<l;k++)
-			{
-			Adj(k,mod_index(k+1,l))=1;
-			Adj(k,mod_index(k-1,l))=1;
-			}
-		}	
-	else if(d==5)
-		{
-		unsigned int l = 5;
-		N = l*l; // =25 min |A|=21
-		A = arma::regspace<arma::uvec> (0,20);
-		Adj=arma::umat(N,N,arma::fill::zeros);
-		for(int j=0;j<l;j++)
-			{
-			for(int k=0;k<l;k++)
-				{
-				Adj(j*l+k,j*l+mod_index(k-1,l))=1;
-				Adj(j*l+k,j*l+mod_index(k+1,l))=1;
-				Adj(j*l+k,k+l*mod_index(j+1,l))=1;
-				Adj(j*l+k,k+l*mod_index(j-1,l))=1;
-				}
-			}						
-		}	 
-	else if(d==7)
-		{
-		unsigned int l = 4;
-		N = l*l*l; // =64 min |A|=43
-		A = arma::regspace<arma::uvec> (0,42);
-		Adj=arma::umat(N,N,arma::fill::zeros);
-		for(int i=0;i<l;i++)
-			{
-			for(int j=0;j<l;j++)
-				{
-				for(int k=0;k<l;k++)
-					{
-					Adj(i*l*l+j*l+k,i*l*l+j*l+mod_index(k-1,l))=1;
-					Adj(i*l*l+j*l+k,i*l*l+j*l+mod_index(k+1,l))=1;
-					Adj(i*l*l+j*l+k,i*l*l+mod_index(j-1,l)*l+k)=1;
-					Adj(i*l*l+j*l+k,i*l*l+mod_index(j+1,l)*l+k)=1;
-					Adj(i*l*l+j*l+k,mod_index(i-1,l)*l*l+j*l+k)=1;
-					Adj(i*l*l+j*l+k,mod_index(i+1,l)*l*l+j*l+k)=1;
-					}
-				}
-			}									
-		}	 
-	else if(d==9)
-		{
-		unsigned int l = 3;
-		N=l*l*l*l; // =81 min |A|=73
-		A = arma::regspace<arma::uvec> (0,72);
-		Adj=arma::umat(N,N,arma::fill::zeros);
-		for(int h=0;h<l;h++)
-			{
-			for(int i=0;i<l;i++)
-				{
-				for(int j=0;j<l;j++)
-					{
-					for(int k=0;k<l;k++)
-						{
-						Adj(h*l*l*l+i*l*l+j*l+k,h*l*l*l+i*l*l+j*l+mod_index(k-1,l))=1;
-						Adj(h*l*l*l+i*l*l+j*l+k,h*l*l*l+i*l*l+j*l+mod_index(k+1,l))=1;
-						Adj(h*l*l*l+i*l*l+j*l+k,h*l*l*l+i*l*l+mod_index(j-1,l)*l+k)=1;
-						Adj(h*l*l*l+i*l*l+j*l+k,h*l*l*l+i*l*l+mod_index(j+1,l)*l+k)=1;
-						Adj(h*l*l*l+i*l*l+j*l+k,h*l*l*l+mod_index(i-1,l)*l*l+j*l+k)=1;
-						Adj(h*l*l*l+i*l*l+j*l+k,h*l*l*l+mod_index(i+1,l)*l*l+j*l+k)=1;
-						Adj(h*l*l*l+i*l*l+j*l+k,mod_index(h-1,l)*l*l*l+i*l*l+j*l+k)=1;
-						Adj(h*l*l*l+i*l*l+j*l+k,mod_index(h+1,l)*l*l*l+i*l*l+j*l+k)=1;
-						}
-					}
-				}
-			}										
-		}
-	arma::umat A_G(2*N,N,arma::fill::zeros),A_S(2*N,N,arma::fill::zeros);
-	A_G(arma::span(0,N-1),arma::span::all)=Adj;
-	A_G(arma::span(N,2*N-1),arma::span::all)=arma::eye<arma::umat> (N,N);	
-	int count=0;
-	for(unsigned int i=0;i<A.n_elem-1;i++)
-		{A_S.col(i) = mod2(arma::uvec(A_G.col(A(i)) + A_G.col(A(i+1))));count++;}
-	for(unsigned int i=0;i<N;i++)
-		if(!any(A==i))
-			{A_S.col(count) = A_G.col(i);count++;}
-	std::string S(N,'I');
-	for(unsigned int i:A)
-		{A_S(i,N-1) = 1; S[i]='Z';}
-	Lz.push_back(S);
-	S=std::string(N,'I');
-	for(unsigned int i=0;i<N;i++)
-		if(i==A(0))
-			S[i]='X';
-		else if(Adj(i,A(0))==1)
-			S[i]='Z';
-	Lx.push_back(S);
 
-	for(unsigned int j=0;j<N-1;j++)
+void optimal_codes(unsigned int d,std::vector<std::string> &stabs,std::vector<std::string> &Lz,std::vector<std::string> &Lx)
+	{
+	if(d==3) //[[5,1,3]]
 		{
-		S =std::string(N,'I');
-		for(unsigned int i=0;i<N;i++)
-			if(A_S(i,j)==0 and A_S(N+i,j)==1)
-				S[i]='X';
-			else if(A_S(i,j)==1 and A_S(N+i,j)==1)
-				S[i]='Y';
-			else if(A_S(i,j)==1 and A_S(N+i,j)==0)
-				S[i]='Z';
-		stabs.push_back(S);
+		stabs={"XZZXI","IXZZX","XIXZZ","ZXIXZ"};
+		Lz={"YYIXI"};
+		Lx={"IYIZZ"};
 		}
-	return;
-	}		
+	else if(d==5) //[[11,1,5]] https://www.codetables.de/
+		{		
+		stabs={"XIIIIXZZIXX","ZIIIIZXYYIX","IXIIIXZYZIY","IZIIIZZZYYI","IIXIIXZXXZI","IIZIIZYIYZZ","IIIXIXYIXXY","IIIZIZIZXZX","IIIIXXXIZZX","IIIIZZIYZYZ"};
+		Lz={"IZIIXYZYIII"};
+		Lx={"IXXIIIZIXIX"};
+		}
+	else if(d==7) //[[17,1,7]] https://www.codetables.de/	
+		{
+stabs={"XIIIIIIIXZYYIIYYZ","ZIIIIIIIZYXXIIXXY","IXIIIIIIZZYZYIXZI","IZIIIIIIYYXYXIZYI","IIXIIIIIIZZYZYIXZ","IIZIIIIIIYYXYXIZY","IIIXIIIIZYYYYZZXZ","IIIZIIIIYXXXXYYZY","IIIIXIIIZXZZYYYYZ","IIIIZIIIYZYYXXXXY","IIIIIXIIZXIYZYZZI","IIIIIZIIYZIXYXYYI","IIIIIIXIIZXIYZYZZ","IIIIIIZIIYZIXYXYY","IIIIIIIXZYYIIYYZX","IIIIIIIZYXXIIXXYZ"};
+		Lz={"IXIIZYYXIIIZIIIIX"};
+		Lx={"YIYIIIIXIIIYZZXII"};
+		}
+	else if(d==9) //[[25,1,9]] https://www.codetables.de/
+		{
+stabs={"XIIYYIIIIIIIZYXIIXZYIIYXZ","ZIIXXIIIIIIIYXZIIZYXIIXZY","IXIYZIIIIIIIYXZIIZYXIIXZY","IZIXYIIIIIIIXZYIIYXZIIZYX","IIXZYIIIIIIIYXZIIZYXIIXZY","IIZYXIIIIIIIXZYIIYXZIIZYX","IIIIIXIIYYIIYXZIIYXZIIYXZ","IIIIIZIIXXIIXZYIIXZYIIXZY","IIIIIIXIYZIIXZYIIXZYIIXZY","IIIIIIZIXYIIZYXIIZYXIIZYX","IIIIIIIXZYIIXZYIIXZYIIXZY","IIIIIIIZYXIIZYXIIZYXIIZYX","IIIIIIIIIIXIYZXIIIIIIIIII","IIIIIIIIIIZIXYZIIIIIIIIII","IIIIIIIIIIIXXXXIIIIIIIIII","IIIIIIIIIIIZZZZIIIIIIIIII","IIIIIIIIIIIIIIIXIYZXIIIII","IIIIIIIIIIIIIIIZIXYZIIIII","IIIIIIIIIIIIIIIIXXXXIIIII","IIIIIIIIIIIIIIIIZZZZIIIII","IIIIIIIIIIIIIIIIIIIIXIYZX","IIIIIIIIIIIIIIIIIIIIZIXYZ","IIIIIIIIIIIIIIIIIIIIIXXXX","IIIIIIIIIIIIIIIIIIIIIZZZZ"};
+		Lz={"XIIYYIYZXIIIIIIXIZIZIIIII"};
+		Lx={"IIIIIYIYYIIIIIIIYIZXIYXIZ"};
+		d=9;
+		}
+	else if(d==11)	//[[29,1,11]] https://www.codetables.de/
+		{
+stabs={"XIIIIIIIIIIIIIXYZZXZZXXZZXZZY","ZIIIIIIIIIIIIIZXYYZYYZZYYZYYX","IXIIIIIIIIIIIIYYZYXIYXZIYXIYI","IZIIIIIIIIIIIIXXYXZIXZYIXZIXI","IIXIIIIIIIIIIIIYYZYXIYXZIYXIY","IIZIIIIIIIIIIIIXXYXZIXZYIXZIX","IIIXIIIIIIIIIIYZZZXZIYIIYYZIZ","IIIZIIIIIIIIIIXYYYZYIXIIXXYIY","IIIIXIIIIIIIIIZZXXIZXZXYYXIXX","IIIIZIIIIIIIIIYYZZIYZYZXXZIZZ","IIIIIXIIIIIIIIXXIYIZIIYYXZYZZ","IIIIIZIIIIIIIIZZIXIYIIXXZYXYY","IIIIIIXIIIIIIIZIZYXYXZZIIYXIY","IIIIIIZIIIIIIIYIYXZXZYYIIXZIX","IIIIIIIXIIIIIIYIXYIIZZXYXYZIZ","IIIIIIIZIIIIIIXIZXIIYYZXZXYIY","IIIIIIIIXIIIIIZZYZXYYIIZIYIXX","IIIIIIIIZIIIIIYYXYZXXIIYIXIZZ","IIIIIIIIIXIIIIXXIXYYXZXZIXXZZ","IIIIIIIIIZIIIIZZIZXXZYZYIZZYY","IIIIIIIIIIXIIIZIZYYIIYIZXZZZY","IIIIIIIIIIZIIIYIYXXIIXIYZYYYX","IIIIIIIIIIIXIIYIXYIZXYIXYZYYI","IIIIIIIIIIIZIIXIZXIYZXIZXYXXI","IIIIIIIIIIIIXIIYIXYIZXYIXYZYY","IIIIIIIIIIIIZIIXIZXIYZXIZXYXX","IIIIIIIIIIIIIXYZZXZZXXZZXZZYX","IIIIIIIIIIIIIZXYYZYYZZYYZYYXZ"};
+		Lz={"IIIZIIIIIXIXYYZIYIIIIXIXIIXIY"};
+		Lx={"IIIIZIIXYIIXIIYIIXIZIIIYIYXIZ"};
+		}
+	else
+		{
+		std::cout<<"Code unavailable!!"<<std::endl; exit(0);
+		}
+	}			

@@ -1,20 +1,21 @@
 struct stab_to_graph_CSS
 	{
 	std::vector<std::string> stabs,Lz,Lx;
-	unsigned int N,N_stab,N_log,Nx_Z,Nx_X,N_leftZ,N_leftX;
+	unsigned int N,t,N_stab,N_log,Nx_Z,Nx_X,N_leftZ,N_leftX;
 	arma::uvec stabs_orderZ,qubits_rev_orderZ,stabs_orderX,qubits_rev_orderX;
 	arma::umat Xs,Zs,AdjZ,JZ,AdjX,JX;
 	bool print_graph_status=false;
-	stab_to_graph_CSS(std::vector<std::string>,std::vector<std::string>,std::vector<std::string>);
+	stab_to_graph_CSS(std::vector<std::string>,std::vector<std::string>,std::vector<std::string>,unsigned int);
 	};
 
-stab_to_graph_CSS::stab_to_graph_CSS(std::vector<std::string> stabilizer_gen,std::vector<std::string> logicalZ_op,std::vector<std::string> logicalX_op)
+stab_to_graph_CSS::stab_to_graph_CSS(std::vector<std::string> stabilizer_gen,std::vector<std::string> logicalZ_op,std::vector<std::string> logicalX_op,unsigned int d)
 	{
 	stabs = stabilizer_gen;
 	Lz = logicalZ_op;	
 	Lx = logicalX_op;	
 	N_stab=stabs.size(), N_log=Lz.size();
 	N=N_stab+N_log;
+	t = (d-1)/2;
 	arma::umat A_SZ(2*N,N,arma::fill::zeros),A_SX(2*N,N,arma::fill::zeros);
 	for(unsigned int j=0;j<N_stab;j++) //stabilizers
 		{
@@ -326,25 +327,25 @@ std::string decode_CSS_subroutine(const unsigned int t,const unsigned int max_wt
 	return(C);
 	}
 
-std::string decode_CSS(arma::urowvec Z_syn, arma::urowvec X_syn,const unsigned int t,const unsigned int tmax,stab_to_graph_CSS &S)
+std::string decode_CSS(arma::urowvec Z_syn, arma::urowvec X_syn,const unsigned int T,stab_to_graph_CSS &S)
 	{
 	std::string C(S.N,'I');
 	if(accu(Z_syn)>0 and accu(X_syn)==0) //Only Z errors
 		{
-		std::string CG = decode_CSS_subroutine(t,tmax,Z_syn,S.AdjZ,'Z');
+		std::string CG = decode_CSS_subroutine(S.t,T,Z_syn,S.AdjZ,'Z');
 		for(int i = 0; i < S.N; i++)
 	    	C[i] = CG[S.qubits_rev_orderZ(i)];
 		}
 	else if(accu(Z_syn)==0 and accu(X_syn)>0) //Only X errors
 		{
-		std::string CG = decode_CSS_subroutine(t,tmax,X_syn,S.AdjX,'X');
+		std::string CG = decode_CSS_subroutine(S.t,T,X_syn,S.AdjX,'X');
 		for(int i = 0; i < S.N; i++)
 	    	C[i] = CG[S.qubits_rev_orderX(i)];
 		}
 	else if(accu(Z_syn)>0 and accu(X_syn)>0) //Both X,Z errors
 		{
-		std::string CG_Z = decode_CSS_subroutine(t,tmax,Z_syn,S.AdjZ,'Z');
-		std::string CG_X = decode_CSS_subroutine(t,tmax,X_syn,S.AdjX,'X');
+		std::string CG_Z = decode_CSS_subroutine(S.t,T,Z_syn,S.AdjZ,'Z');
+		std::string CG_X = decode_CSS_subroutine(S.t,T,X_syn,S.AdjX,'X');
 
 		std::string CZ(S.N,'I');
 		for(int i = 0; i < S.N; i++)
