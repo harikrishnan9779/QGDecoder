@@ -2,18 +2,29 @@
 
 **QGDecoder** is a graph-based bounded-distance quantum decoder supporting arbitrary stabilizer codes
 - An $[[N,k,d]]$ quantum code corrects upto weight $t=(d-1)/2$ errors with certainty.   
+- QGDecoder takes in a tunable target weight $T$. If $T\leq t$ it ensures all errors with weight $w\leq T$ is corrected.
+- Graph state based bounded distance decoding.
+- Additive.h supports both CSS and non-CSS codes.
+- Use CSS.h for improved efficiency with CSS codes.
 
-- CSS and non-CSS stabilizer codes.
-- Graph state based decoding.
-- Bounded distance decoder.
-- Set a target weight, all errors with weight up to that will be corrected with certainity. 
+## Package features and requirements
+- Header only package. Make sure the parent folder QGDecoder is accessible. Enjoy decoding!
+- Written in C++ (use C++17 to avoid any warnings)
+- Linear algebra powered by [Armadillo](http://arma.sourceforge.net/)
 
-## Features
-- Written in C++ with Armadillo
-- Fast linear algebra backend
-- Modular graph decoding framework
+## Available quantum codes
+- non-CSS [optimal codes](https://www.codetables.de/) of distance $d=3,5,7,9,11$.
+- non-CSS [XZZX code](https://www.nature.com/articles/s41467-021-22274-1) on $d\times d$ square lattice.
+- CSS triangular color code on triangular lattice of length $d$.
+- CSS rotated surface codes on $d\times d$ square lattice.  
 
-## Requirements
-- C++17
-- [Armadillo Library](http://arma.sourceforge.net/)
-
+If you use the QGDecoder please citing the article as,
+@misc{QGDecoder,
+      title={A graph-aware bounded-distance decoder for all stabilizer codes}, 
+      author={Harikrishnan K J and Amit Kumar Pal},
+      year={2026},
+      eprint={},
+      archivePrefix={arXiv},
+      primaryClass={quant-ph},
+      url={https://arxiv.org/abs/}, 
+}
