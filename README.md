@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/logo.png" width="500">
+  <img src="docs/logo.png" width="400">
 </p>
 
 **QGDecoder** is a graph-aware bounded-distance quantum decoder supporting arbitrary stabilizer codes under depolarization channel.
