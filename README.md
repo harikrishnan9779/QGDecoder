@@ -15,9 +15,9 @@
 ## Usage
 - Provide set of $N-k$ stabilizers (stabs) and $k$ logical operators (Lz and Lx) as C++ vector of strings of length $N$.
 - Use only "X", "Y", "Z" or "I" to give the Pauli component e.g. "XZZXI" for five qubits.
-- The struct 'stab_to_graph' object 'S(stabs,Lz,Lx,d)' returns the equivalent graph of the code
+- The struct stab_to_graph object S(stabs,Lz,Lx,d) returns the equivalent graph of the code
 - By default Lz logicals are appended with stabs. Pass a boolean false as fifth argument to use Lx.  
-- get_pauli_error_vector(N,w,p,error_type,seed_random) returns a random Pauli error string on $N$ qubits having atmost weight $w$ with single qubit error channel probability $p$. error_type='D'/'X'/'Y'/'Z' enables depolarisation/bit-flip/bit-phase flip/phase flip errors. Set random seeding with $seed_random$ if not given system generated seed is used.
+- get_pauli_error_vector(N,w,p,error_type,seed_random) returns a random Pauli error string on $N$ qubits having atmost weight $w$ with single qubit error channel probability $p$. error_type='D'/'X'/'Y'/'Z' enables depolarisation/bit-flip/bit-phase flip/phase flip errors. Set random seeding with seed_random if not given system generated seed is used.
 
 ### Additive
 - get_stabilizer_syndrome(E,S,stab_syn) returns the stabilizer syndrome stab_syn corresponding to Pauli error E.
