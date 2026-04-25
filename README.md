@@ -34,6 +34,7 @@
 
 
 - logical_error(E,C,Lz,Lx) returns true if there is an occurrence of logical error after the correction C.
+- Just run the script files non-CSS.sh and CSS.sh to a simple demo.
 
 ## Standard quantum codes available with QGDecoder
 - non-CSS [optimal codes](https://www.codetables.de/) of distance $d=3,5,7,9,11$.
