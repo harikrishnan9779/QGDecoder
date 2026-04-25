@@ -1,4 +1,7 @@
 # QGDecoder
+<p align="center">
+  <img src="docs/logo.png" width="200">
+</p>
 
 **QGDecoder** is a graph-aware bounded-distance quantum decoder supporting arbitrary stabilizer codes under depolarization channel.
 - An $[[N,k,d]]$ quantum code corrects upto weight $t=(d-1)/2$ errors with certainty.   
