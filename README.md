@@ -44,7 +44,7 @@
 
 ## Attribution
 
-When using QGDecoder, please cite our [paper](https://arxiv.org/abs/):
+When using QGDecoder, please cite our [paper](https://arxiv.org/abs/2604.25424):
 
 ```bibtex
 @misc{QGDecoder,
