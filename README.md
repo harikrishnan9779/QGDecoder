@@ -2,7 +2,7 @@
   <img src="docs/logo.png" width="400">
 </p>
 
-**QGDecoder** is a graph-aware bounded-distance quantum decoder supporting arbitrary stabilizer codes under depolarization channel.
+**QGDecoder** is a graph-aware bounded distance quantum decoder supporting arbitrary stabilizer codes under depolarization channel.
 - An $[[N,k,d]]$ quantum code corrects upto weight $t=(d-1)/2$ errors with certainty.   
 - QGDecoder takes in a tunable target weight $T$. If $T\leq t$ it ensures all errors with weight $w\leq T$ are corrected.
 - Graph state based bounded distance decoding.
@@ -47,13 +47,12 @@
 When using QGDecoder, please cite our [paper](https://arxiv.org/abs/):
 
 ```bibtex
-@article{Harikrishnan2026QGDecoder,
-  title         = {A graph-aware bounded-distance decoder for all stabilizer codes},
-  author        = {Harikrishnan K J and Amit Kumar Pal},
-  journal       = {arXiv preprint},
-  year          = {2026},
-  eprint        = {},
-  archivePrefix = {arXiv},
-  primaryClass  = {quant-ph},
-  url           = {https://arxiv.org/abs}
+@misc{QGDecoder,
+title={A graph-aware bounded distance decoder for all stabilizer codes}, 
+author={Harikrishnan K J and Amit Kumar Pal},
+year={2026},
+eprint={2604.25424},
+archivePrefix={arXiv},
+primaryClass={quant-ph},
+url={https://arxiv.org/abs/2604.25424}, 
 }
